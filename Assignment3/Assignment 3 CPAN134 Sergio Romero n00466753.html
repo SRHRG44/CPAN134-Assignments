@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>CPAN134 Assignment 3</h1>
+    <input id="userAction" type="text" placeholder="Enter action (add, remove, display, total, lowstock, cont, or quit)">
+    <button id="submitButton">Submit</button>
+
+    <script>
+       
+        const inventory = {};
+
+        function populateInventory() {
+            inventory[100] = { name: "Shirt", price: 15.99, quantity: 10 };
+            inventory[200] = { name: "Mug", price: 5.00, quantity: 5 };
+            inventory[300] = { name: "Hat", price: 12.50, quantity: 3 };
+        }
+
+        function addProduct() {
+            const productId = parseInt(prompt("Enter product ID: ")); 
+            const name = prompt("Enter product name: "); 
+            const price = parseFloat(prompt("Enter product price: ")); 
+            const quantity = parseInt(prompt("Enter product quantity: ")); 
+
+            // Check for duplicate ID
+            if (productId in inventory) {
+                console.error("Product ID already exists. Please try a different ID.");
+                return;
+            }
+
+            inventory[productId] = { name, price, quantity };
+            console.log(`Product "${name}" (ID: ${productId}) added to inventory.`);
+        }
+
+        function removeProduct() {
+            const productId = parseInt(prompt("Enter product ID to remove: ")); 
+
+            if (!(productId in inventory)) {
+                console.error("Product not found in inventory.");
+                return;
+            }
+
+            delete inventory[productId];
+            console.log(`Product with ID ${productId} removed from inventory.`);
+        }
+
+        function displayInventory() {
+            if (Object.keys(inventory).length === 0) {
+                console.log("Inventory is empty.");
+                return;
+            }
+
+            console.log("**Inventory**");
+            for (const productId in inventory) {
+                const product = inventory[productId];
+                console.log(`Product ID: ${productId}`);
+                console.log(`  Name: ${product.name}`);
+                console.log(`  Price: $${product.price.toFixed(2)}`);  // Format price to 2 decimal places
+                console.log(`  Quantity: ${product.quantity}`);
+            }
+        }
+
+        function calculateTotalValue() {
+            let totalValue = 0;
+            for (const productId in inventory) {
+                const product = inventory[productId];
+                totalValue += product.price * product.quantity;
+            }
+
+            console.log(`Total inventory value: $${totalValue.toFixed(2)}`);
+        }
+
+        function checkLowStock(lowStockThreshold = 5) {
+            console.log("\n**Low Stock Alert**");
+            let hasLowStock = false;
+            for (const productId in inventory) {
+                const product = inventory[productId];
+                if (product.quantity < lowStockThreshold) {
+                    console.log(`  - Product ID: ${productId} - Name: ${product.name} (Quantity: ${product.quantity})`);
+                    hasLowStock = true;
+                }
+            }
+            if (!hasLowStock) {
+                console.log("  No products are currently below the low stock threshold.");
+            }
+        }
+
+        const userInputField = document.getElementById("userAction");
+        const submitButton = document.getElementById("submitButton");
+
+        submitButton.addEventListener("click", () => {
+  const userAction = userInputField.value.toLowerCase();
+
+  switch (userAction) {
+    case "add":
+      addProduct();
+      break;
+    case "remove":
+      removeProduct();
+      break;
+    case "display":
+      displayInventory();
+      break;
+    case "total":
+      calculateTotalValue();
+      break;
+    case "lowstock":
+      checkLowStock();
+      break;
+    case "cont":
+      console.log("Continuous action placeholder (replace with actual logic)");
+      break;
+    case "quit":
+      console.log("Exiting inventory tracker.");
+      break;
+    default:
+      console.error("Invalid action. Please try again.");
+  }
+
+  userInputField.value = "";
+});
+    </script>
+</body>
+</html>
