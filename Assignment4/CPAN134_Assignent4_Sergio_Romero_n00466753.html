@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hide and Show Content</title>
+  <style>
+    
+    body{
+        border: 2px solid red;
+        padding: 20px;
+        margin: 20px;
+    }
+  </style>
+</head>
+<body>
+    <h1><strong>Country:</strong></h1>
+    <p>CANADA</p>
+    <h1><strong>Capital:</strong></h1>
+  <p><span id="capital">OTTAWA</span></p>
+  <br>
+  <button onclick="hideCapital()">Hide Capital Name</button>
+  <br>
+  <button onclick="showCapital()">Show Capital Name</button>
+  <br>
+  <button onclick="toggleCapital()">Toggle</button>
+  <hr>
+  
+  <p onmouseover="this.style.backgroundColor = 'yellow'">Hover me to turn yellow!</p>
+  <p onclick="this.style.backgroundColor = 'green'">Click me to turn green!</p>
+
+  <script>
+    function hideCapital() {
+      document.getElementById("capital").style.display = "none";
+    }
+
+    function showCapital() {
+      document.getElementById("capital").style.display = ""; // Reset display property
+    }
+
+    function toggleCapital() {
+      const capitalElement = document.getElementById("capital");
+      if (capitalElement.style.display === "none") {
+        showCapital();
+      } else {
+        hideCapital();
+      }
+    }
+  </script>
+</body>
+</html>
